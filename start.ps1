@@ -1,4 +1,4 @@
-# ReviewPilot one-click launcher.
+# AgentGuard one-click launcher.
 # Usage:
 #   .\start.ps1            run a live agent review on the sample diff
 #   .\start.ps1 -Test      run the agent unit test suite
@@ -12,10 +12,10 @@ $ErrorActionPreference = "Stop"
 $repo = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $repo
 
-function Info([string]$m) { Write-Host "[reviewpilot] $m" -ForegroundColor Cyan }
-function Ok([string]$m)   { Write-Host "[reviewpilot] $m" -ForegroundColor Green }
-function Warn([string]$m) { Write-Host "[reviewpilot] $m" -ForegroundColor Yellow }
-function Fail([string]$m) { Write-Host "[reviewpilot] $m" -ForegroundColor Red; exit 1 }
+function Info([string]$m) { Write-Host "[agentguard] $m" -ForegroundColor Cyan }
+function Ok([string]$m)   { Write-Host "[agentguard] $m" -ForegroundColor Green }
+function Warn([string]$m) { Write-Host "[agentguard] $m" -ForegroundColor Yellow }
+function Fail([string]$m) { Write-Host "[agentguard] $m" -ForegroundColor Red; exit 1 }
 
 Info "repo: $repo"
 

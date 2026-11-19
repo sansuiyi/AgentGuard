@@ -2,6 +2,13 @@
 # service). It is NOT read by the open-source agent in this repository; some keys
 # below (e.g. the [review_agent] section) only exist in that hosted agent.
 
+[config]
+# Review/describe models use the DeepSeek V4 Flash tier. The AgentGuard judge
+# deliberately uses the stronger V4 Pro tier (deepseek/deepseek-reasoner),
+# configured in configs/default.yaml.
+model = "deepseek/deepseek-chat"
+fallback_models = ["deepseek/deepseek-chat"]
+
 [pr_reviewer]
 enable_review_labels_effort = true
 enable_auto_approval = true

@@ -1,16 +1,19 @@
-"""Read-only tools available to the ReviewPilot agent in phase one."""
+"""Compatibility shim: tools moved to ``agentguard.analysis.tools``."""
 
-from pr_agent.agent_exec.tools.base import (
+from agentguard.analysis.tools import (
+    WORKSPACE_TOOL_NAME,
+    FindReferencesTool,
     MCPToolAdapter,
     MCPToolDescriptor,
+    ReadFileContextTool,
+    RunStaticAnalysisTool,
     Tool,
     ToolRegistry,
+    build_workspace_tool,
     default_registry,
+    extract_line_window,
     to_mcp_descriptor,
 )
-from pr_agent.agent_exec.tools.find_references import FindReferencesTool
-from pr_agent.agent_exec.tools.read_file_context import ReadFileContextTool
-from pr_agent.agent_exec.tools.run_static_analysis import RunStaticAnalysisTool
 
 __all__ = [
     "FindReferencesTool",
@@ -20,6 +23,9 @@ __all__ = [
     "RunStaticAnalysisTool",
     "Tool",
     "ToolRegistry",
+    "WORKSPACE_TOOL_NAME",
+    "build_workspace_tool",
     "default_registry",
+    "extract_line_window",
     "to_mcp_descriptor",
 ]

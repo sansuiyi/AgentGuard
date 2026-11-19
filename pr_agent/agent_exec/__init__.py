@@ -1,13 +1,11 @@
-"""ReviewPilot agent execution package.
+"""Compatibility shim for the former AgentGuard runtime package.
 
-This package hosts the multi-step code-review agent that upgrades PR-Agent's
-single-shot review pipeline into a bounded tool-use loop. It is kept separate
-from the upstream ``pr_agent/tools`` so the original ``/review`` command stays
-unchanged until the agent is explicitly enabled via ``[agent_exec]`` settings.
+The implementation moved to the top-level ``agentguard`` package; this module
+re-exports the stable public surface for existing imports and tests.
 """
 
-from pr_agent.agent_exec.models import AgentState, AuditEvent, Decision, Finding, ToolResult, TrajectoryStep
-from pr_agent.agent_exec.runner import ReviewAgentRunner
+from agentguard.core.schemas import AgentState, AuditEvent, Decision, Finding, ToolResult, TrajectoryStep
+from agentguard.orchestration.runner import ReviewAgentRunner
 
 __all__ = [
     "AgentState",

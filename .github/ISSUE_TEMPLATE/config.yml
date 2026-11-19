@@ -2,5 +2,5 @@ blank_issues_enabled: false
 version: 0.1
 contact_links:
   - name: Discussions
-    url: https://github.com/sansuiyi/ReviewPilot/discussions
+    url: https://github.com/sansuiyi/AgentGuard/discussions
     about: GitHub Discussions

@@ -7,14 +7,14 @@ name = "pr-agent"
 version = "0.47.0"
 
 authors = [
-  { name = "ReviewPilot Maintainers" },
+  { name = "AgentGuard Maintainers" },
 ]
 
 maintainers = [
-  { name = "ReviewPilot Maintainers" },
+  { name = "AgentGuard Maintainers" },
 ]
 
-description = "ReviewPilot helps efficiently review and handle pull requests, by providing AI feedback and suggestions."
+description = "AgentGuard is a two-in-one agent quality platform: GuardReview reviews pull requests, GuardTest runs deterministic behavior regressions."
 readme = "README.md"
 requires-python = ">=3.12"
 keywords = ["AI", "Agents", "Pull Request", "Automation", "Code Review"]
@@ -60,7 +60,7 @@ dependencies = [
   # Recheck LiteLLM's declared constraint on upgrade; the observability guard covers callback imports.
   "pydantic-settings==2.14.2",
   "html2text==2024.2.26",
-  # ReviewPilot agent execution loop (pr_agent/agent_exec). langgraph manages the
+  # AgentGuard agent execution loop (pr_agent/agent_exec). langgraph manages the
   # review -> decide -> tools -> verify -> finalize state machine; the floor is the
   # last vetted release and the <2 cap avoids the (API-breaking) major bump.
   "langgraph>=0.2,<2",
@@ -75,10 +75,10 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/sansuiyi/ReviewPilot"
+"Homepage" = "https://github.com/sansuiyi/AgentGuard"
 "Documentation" = "https://docs.pr-agent.ai/"
-"Repository" = "https://github.com/sansuiyi/ReviewPilot"
-"Issues" = "https://github.com/sansuiyi/ReviewPilot/issues"
+"Repository" = "https://github.com/sansuiyi/AgentGuard"
+"Issues" = "https://github.com/sansuiyi/AgentGuard/issues"
 
 [tool.setuptools]
 include-package-data = true
@@ -89,8 +89,9 @@ pr_agent = ["py.typed"]
 [tool.setuptools.packages.find]
 where = ["."]
 include = [
+  "agentguard*",
   "pr_agent*",
-] # include pr_agent and any sub-packages it finds under it.
+] # AgentGuard business packages plus the upstream-compatible pr_agent packages.
 
 [project.optional-dependencies]
 # Git/provider integrations are optional so a plain package install does not pull every SDK.
@@ -135,6 +136,9 @@ langchain = [
 
 [project.scripts]
 pr-agent = "pr_agent.cli:run"
+guardreview = "pr_agent.cli:run"
+agentguard = "agentguard.cli:main"
+guardtest = "agentguard.cli:main"
 
 [dependency-groups]
 # Keep the full optional integration matrix available to the unit suite without publishing it as a base dependency.

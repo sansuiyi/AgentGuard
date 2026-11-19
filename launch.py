@@ -26,7 +26,7 @@ if IS_WINDOWS:
 ROOT = Path(__file__).resolve().parent
 
 # ── 品牌信息 ──
-APP_NAME = "ReviewPilot 代码合并审查控制台"
+APP_NAME = "GuardReview · 代码合并审查控制台"
 APP_VERSION = "v1.0-By.GYX"
 
 CYAN, DIM, BOLD, GREEN, YELLOW, RED, RESET = (
@@ -292,7 +292,11 @@ def page_online():
     crumb = "主页 › 代码审查 › ① 在线 PR 审查"
     while True:
         idx = menu(crumb, "在线 PR 审查（自动识别平台）", [
-            ("粘贴 PR 网址开始", "支持 GitHub / GitLab / BitBucket / Azure DevOps / Gitea 等，按网址自动路由；结果发布为 PR 评论，自己的仓库还会自动打标签"),
+            (
+                "粘贴 PR 网址开始",
+                "支持 GitHub / GitLab / BitBucket / Azure DevOps / Gitea 等，按网址自动路由；"
+                "结果发布为 PR 评论，自己的仓库还会自动打标签",
+            ),
             ("返回上级", "回到代码审查菜单"),
         ])
         if idx is None or idx == 1:
@@ -316,7 +320,8 @@ def page_local_branch():
     crumb = "主页 › 代码审查 › ② 本地分支对比"
     while True:
         idx = menu(crumb, "审查本地分支改动",
-                   [("选择项目并对比目标分支", "要求工作区改动已提交（干净）；结果写入仓库根目录 review.md / description.md / improve.md"),
+                   [("选择项目并对比目标分支",
+                     "要求工作区改动已提交（干净）；结果写入仓库根目录 review.md / description.md / improve.md"),
                     ("返回上级", "回到代码审查菜单")])
         if idx is None or idx == 1:
             return
@@ -589,13 +594,17 @@ def page_guide():
 def page_main():
     crumb = "主页"
     while True:
+        intro = (
+            f"{DIM}代码审查 Agent 智能助手 · 多平台（GitHub / GitLab / BitBucket / Azure 等）"
+            f"· 同时支持本地代码审查{RESET}"
+        )
         idx = menu(crumb, "主菜单", [
             ("功能总览", "这个系统有什么功能、各在什么时候用，逐项查看说明"),
             ("代码审查", "四种入口：在线 PR / 本地分支 / diff 文件 / 未提交改动"),
             ("状态与配置", "版本、当前模型、已配置的密钥一览"),
             ("使用指南", "三步上手 + 常见问题"),
             ("退出", "结束本次会话"),
-        ], intro=f"{DIM}代码审查 Agent 智能助手 · 多平台（GitHub / GitLab / BitBucket / Azure 等）· 同时支持本地代码审查{RESET}")
+        ], intro=intro)
         if idx is None:
             return "exit"
         elif idx == 0:

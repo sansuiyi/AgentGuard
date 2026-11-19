@@ -1,4 +1,4 @@
-"""Tests for the ReviewPilot benchmark framework (pr_agent.agent_exec.benchmark).
+"""Tests for the AgentGuard benchmark framework (agentguard.evaluation.benchmark).
 
 Uses a stub runner so no live LLM is required and the scoring is deterministic.
 """
@@ -8,14 +8,14 @@ from pathlib import Path
 
 import pytest
 
-from pr_agent.agent_exec.benchmark import (
+from agentguard.core.schemas import Finding, RiskLevel
+from agentguard.evaluation.benchmark import (
     BenchmarkRunner,
     ScoringWeights,
     _finding_matches,
     _title_overlap,
     load_dataset,
 )
-from pr_agent.agent_exec.models import Finding, RiskLevel
 
 
 class _StubState:
@@ -74,7 +74,7 @@ async def test_benchmark_scores_perfect_precision_recall_when_matches():
     item_state = _StubState(findings=[_f("a.py", 1, "command injection")])
     runner = _StubRunner([item_state])
 
-    from pr_agent.agent_exec.benchmark import BenchmarkItem
+    from agentguard.evaluation.benchmark import BenchmarkItem
 
     items = [
         BenchmarkItem(
@@ -101,7 +101,7 @@ async def test_benchmark_scores_zero_recall_when_agent_finds_nothing():
     # default weights the weighted score = 0*0.4 + 0*0.4 + 1*0.2 = 0.2.
     runner = _StubRunner([_StubState(findings=[])])
 
-    from pr_agent.agent_exec.benchmark import BenchmarkItem
+    from agentguard.evaluation.benchmark import BenchmarkItem
 
     items = [
         BenchmarkItem(
@@ -129,7 +129,7 @@ async def test_benchmark_aggregates_over_multiple_items_and_averages():
         ]
     )
 
-    from pr_agent.agent_exec.benchmark import BenchmarkItem
+    from agentguard.evaluation.benchmark import BenchmarkItem
 
     items = [
         BenchmarkItem(
@@ -164,7 +164,7 @@ async def test_benchmark_weights_are_configurable():
         ]
     )
 
-    from pr_agent.agent_exec.benchmark import BenchmarkItem
+    from agentguard.evaluation.benchmark import BenchmarkItem
 
     items = [
         BenchmarkItem(

@@ -1,10 +1,10 @@
 {
-  "name": "ReviewPilot",
-  "description": "ReviewPilot",
+  "name": "AgentGuard",
+  "description": "AgentGuard",
   "key": "app_key",
   "vendor": {
-    "name": "ReviewPilot",
-    "url": "https://github.com/sansuiyi/ReviewPilot"
+    "name": "AgentGuard",
+    "url": "https://github.com/sansuiyi/AgentGuard"
   },
   "authentication": {
     "type": "jwt"
@@ -32,7 +32,7 @@
     ]
   },
   "links": {
-    "privacy": "https://github.com/sansuiyi/ReviewPilot",
-    "terms": "https://github.com/sansuiyi/ReviewPilot"
+    "privacy": "https://github.com/sansuiyi/AgentGuard",
+    "terms": "https://github.com/sansuiyi/AgentGuard"
   }
 }

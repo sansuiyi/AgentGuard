@@ -1,0 +1,23 @@
+# Capability mapping for impact analysis and test selection.
+# Each capability lists tags used to route a code diff to relevant golden cases.
+capabilities:
+  long_term_memory:
+    description: 跨轮记忆的写入、召回、更正与遗忘
+    test_tags: [long_term_memory, memory]
+    related_capabilities: [emotion_response]
+  emotion_response:
+    description: 识别用户情绪并做出共情回应
+    test_tags: [emotion_response, emotion]
+    related_capabilities: [personality, safety]
+  personality:
+    description: 人设与语气的一致性
+    test_tags: [personality, tone]
+    related_capabilities: [emotion_response]
+  safety:
+    description: 敏感信息、依赖诱导、自伤等高危边界的拦截
+    test_tags: [safety, content_safety]
+    related_capabilities: []
+  tool_state:
+    description: 工具调用参数、状态与结果一致性
+    test_tags: [tool_state, tool]
+    related_capabilities: []

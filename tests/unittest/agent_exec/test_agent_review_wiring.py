@@ -1,4 +1,4 @@
-"""Tests for the ReviewPilot agent loop wiring into PRReviewer.run().
+"""Tests for the AgentGuard agent loop wiring into PRReviewer.run().
 
 The agent loop is opt-in via ``[agent_exec].enabled``. When disabled (the
 default) the single-shot review pipeline runs unchanged; when enabled the
@@ -54,7 +54,7 @@ def _make_reviewer():
 @pytest.mark.asyncio
 async def test_agent_wiring_disabled_by_default_is_noop(monkeypatch):
     # When disabled, the wiring must not run the agent or publish anything.
-    monkeypatch.setattr("pr_agent.agent_exec.runner.is_enabled", lambda: False)
+    monkeypatch.setattr("agentguard.orchestration.runner.is_enabled", lambda: False)
     _FakeRunner.instances.clear()
 
     reviewer = _make_reviewer()
@@ -68,8 +68,8 @@ async def test_agent_wiring_disabled_by_default_is_noop(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_agent_wiring_runs_and_publishes_when_enabled(monkeypatch):
-    monkeypatch.setattr("pr_agent.agent_exec.runner.is_enabled", lambda: True)
-    monkeypatch.setattr("pr_agent.agent_exec.runner.ReviewAgentRunner", _FakeRunner)
+    monkeypatch.setattr("agentguard.orchestration.runner.is_enabled", lambda: True)
+    monkeypatch.setattr("agentguard.orchestration.runner.ReviewAgentRunner", _FakeRunner)
     _FakeRunner.instances.clear()
 
     snap = snapshot_settings(["config.publish_output"])

@@ -309,7 +309,7 @@ supported_doc_exts = [".md", ".mdx", ".rst"]
 enable_help_text=false
 
 [agent_exec]
-# ReviewPilot multi-step agent loop (pr_agent/agent_exec). Disabled by default so
+# AgentGuard multi-step agent loop (pr_agent/agent_exec). Disabled by default so
 # the existing single-shot /review pipeline is unchanged until the agent is
 # explicitly enabled. The budgets below are enforced in server code, not the prompt.
 enabled = false
@@ -320,6 +320,30 @@ tool_timeout_seconds = 10.0  # per-tool execution timeout
 verify_confidence_threshold = 0.6  # high-risk findings below this confidence trigger verification (Jev)
 loop_detection_window = 3  # force finalize when the last N decision signatures repeat
 enforce_tool_whitelist = true  # refuse tools not in the first-phase whitelist (harness)
+# First-pass and independent verification-pass models. Empty values fall back to
+# config.model, so swapping a model is a configuration change, never a code change.
+review_model = "deepseek/deepseek-v4-flash"  # first (review) pass model; empty = config.model
+verify_model = "deepseek/deepseek-v4-pro"  # independent (verify) pass model; empty = review_model
+verify_context_lines = 30  # lines of real source before/after the finding handed to the verifier
+# Federation (multi-subagent fan-out for large PRs). Separate gate on top of the
+# agent loop; the orchestration decision is deterministic code, never the model.
+federation_enabled = false  # fan out one bounded sub-agent per file batch for large PRs
+federation_min_files = 4  # below this file count a single runner is cheaper than fan-out
+federation_min_diff_tokens = 6000  # estimated diff tokens (~4 chars/token) above which fan out, even for one huge file
+federation_max_files_per_batch = 1  # diff files per sub-agent batch
+federation_max_concurrency = 3  # cap concurrent sub-agents to avoid hammering the provider
+federation_max_total_llm_calls = 60  # hard cap on real LLM calls across the whole federation run
+federation_dedup_line_window = 5  # findings on the same file within this many lines may be duplicates
+federation_dedup_title_threshold = 0.5  # title token-overlap (Jaccard) needed to treat two findings as the same issue
+# Read-only workspace source lookup exposed as an MCP-standardized tool. Lets the
+# agent inspect unchanged code (type definitions, interface declarations) that the
+# diff alone cannot show. Disabled by default; every path must stay inside the root.
+workspace_mcp_enabled = false  # register the read-only workspace tool
+workspace_root = ""  # explicit workspace directory; empty disables the tool
+workspace_max_file_bytes = 262144  # refuse files larger than this (use symbol search instead)
+workspace_max_matches = 50  # cap symbol-search hits
+workspace_max_scan_files = 2000  # cap files scanned by a symbol search
+workspace_allowed_extensions = [".py", ".pyi", ".ts", ".tsx", ".js", ".jsx", ".java", ".go", ".rs", ".md", ".toml", ".yaml", ".yml", ".json"]
 
 [github]
 # The type of deployment to create. Valid values are 'app' or 'user'.

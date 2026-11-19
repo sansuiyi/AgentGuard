@@ -1,0 +1,9 @@
+dataset_name: agentguard-golden
+dataset_version: 1.0.0
+case_count: 300
+categories:
+  memory: 60
+  emotion: 60
+  personality: 60
+  safety: 60
+  tool_state: 60

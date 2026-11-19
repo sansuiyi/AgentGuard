@@ -1,4 +1,4 @@
-"""Run one real ReviewPilot agent loop against the configured model.
+"""Run one real AgentGuard agent loop against the configured model.
 
 Standalone launcher for the tool-use review agent. It reads the model from
 ``config.model`` and provider credentials from ``.secrets.toml`` (the shared
@@ -17,7 +17,7 @@ Before running, set the model and provider key in ``pr_agent/settings/.secrets.t
 
 import asyncio
 
-from pr_agent.agent_exec import ReviewAgentRunner
+from agentguard import ReviewAgentRunner
 from pr_agent.algo.types import EDIT_TYPE, FilePatchInfo
 from pr_agent.config_loader import get_settings
 

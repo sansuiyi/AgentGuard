@@ -1,12 +1,12 @@
 # Security Policy
 
-ReviewPilot is an open-source tool to help efficiently review and handle pull requests.
+AgentGuard is an open-source tool to help efficiently review and handle pull requests.
 
-This document describes the security policy of the ReviewPilot project.
+This document describes the security policy of the AgentGuard project.
 
 ## Self-Hosted Solutions
 
-When using ReviewPilot with your OpenAI (or other LLM provider) API key, the security relationship is directly between you and the provider. ReviewPilot does not send your code to any servers operated by the project.
+When using AgentGuard with your OpenAI (or other LLM provider) API key, the security relationship is directly between you and the provider. AgentGuard does not send your code to any servers operated by the project.
 
 Types of self-hosted solutions:
 
@@ -18,7 +18,7 @@ Types of self-hosted solutions:
 
 ## Supported Versions
 
-This section outlines which versions of ReviewPilot are currently supported with security updates.
+This section outlines which versions of AgentGuard are currently supported with security updates.
 
 Security-sensitive dependencies are declared with bounded version ranges in `pyproject.toml`
 (`>=patched,<next-major`) so pip consumers can pull security patches on their own cadence;
@@ -26,10 +26,10 @@ the exact versions used by this repository's own builds (Docker, CI, uv sync) co
 
 ## Reporting a Vulnerability
 
-We take the security of ReviewPilot seriously. If you discover a security vulnerability, please report it privately through GitHub's private vulnerability reporting, which is enabled on this repository:
+We take the security of AgentGuard seriously. If you discover a security vulnerability, please report it privately through GitHub's private vulnerability reporting, which is enabled on this repository:
 
-[**Report a vulnerability**](https://github.com/sansuiyi/ReviewPilot/security/advisories/new)
+[**Report a vulnerability**](https://github.com/sansuiyi/AgentGuard/security/advisories/new)
 
-Please include a description of the vulnerability, steps to reproduce, and the affected ReviewPilot version.
+Please include a description of the vulnerability, steps to reproduce, and the affected AgentGuard version.
 
 Do not open a public issue for a security report — a public issue discloses the vulnerability before a fix is available.

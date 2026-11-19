@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
-// The ReviewPilot mark (the pull-request glyph from the favicon).
+// The AgentGuard mark (the pull-request glyph from the favicon).
 function Mark({className}) {
   return (
     <svg className={className} viewBox="0 0 16 16" aria-hidden="true">
@@ -129,7 +129,7 @@ function Thread() {
   };
 
   return (
-    <figure className={styles.thread} aria-label="Example: running a ReviewPilot command on a pull request">
+    <figure className={styles.thread} aria-label="Example: running a AgentGuard command on a pull request">
       <div className={styles.threadHead}>
         <span className={styles.prTitle}>feat: retry failed webhook deliveries</span>
         <span className={styles.prNumber}>#482</span>
@@ -192,16 +192,17 @@ export default function Hero() {
   return (
     <header className={styles.hero}>
       <div className={styles.intro}>
-        <h1 className={styles.title}>ReviewPilot</h1>
+        <h1 className={styles.title}>AgentGuard</h1>
         <p className={styles.lede}>
-          An open-source AI agent that describes, reviews and improves pull requests. Run it from a PR
-          comment, a webhook, your CI or the terminal.
+          AgentGuard pairs GuardReview, a bounded AI agent that reviews pull requests, with GuardTest,
+          an offline regression harness that diffs a golden and a candidate agent. Run both from the
+          terminal, your CI or a PR comment.
         </p>
         <div className={styles.actions}>
           <Link className={styles.primary} to="/installation/">
-            Install ReviewPilot
+            Install AgentGuard
           </Link>
-          <Link className={styles.secondary} to="https://github.com/sansuiyi/ReviewPilot">
+          <Link className={styles.secondary} to="https://github.com/sansuiyi/AgentGuard">
             View on GitHub
           </Link>
         </div>

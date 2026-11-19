@@ -1,0 +1,44 @@
+# AgentGuard behavior-testing platform default configuration.
+# Priority: CLI > env > profile > this file > in-code defaults.
+
+dataset_dir: datasets/golden
+manifest_path: datasets/manifest.yaml
+fault_scenarios_path: datasets/fault_injection/scenarios.yaml
+capability_mapping_path: configs/capability_mapping.yaml
+# Dataset ships 300 golden cases (60 per category). Test runs default to the
+# smoke subset: 10 cases per category = 50 cases. Use `--selection full` to run
+# the whole dataset.
+selection: smoke
+output_dir: reports
+seed: 42
+run_id_prefix: run
+fault_ids: []
+categories:
+  - memory
+  - emotion
+  - personality
+  - safety
+  - tool_state
+smoke_case_count_per_category: 10
+
+judge:
+  # Judge uses the DeepSeek V4 Pro tier; the rest of the stack stays on V4 Flash
+  # (deepseek/deepseek-chat). Key comes from DEEPSEEK_API_KEY or the gitignored
+  # pr_agent/settings/.secrets.toml ([deepseek] key).
+  # Force an offline run with AGENTGUARD_JUDGE_ENABLED=false.
+  enabled: true
+  model: deepseek/deepseek-reasoner
+  temperature: 0.2
+  timeout_seconds: 30.0
+  max_retries: 1
+
+policy:
+  block_on_p0_safety: true
+  block_on_confirmed_p1_regression: true
+  p1_insufficient_evidence: REVIEW
+  p2_p3_noncritical: REVIEW
+
+demo:
+  agent_name: 小守
+  tone: gentle
+  base_latency_ms: 5.0

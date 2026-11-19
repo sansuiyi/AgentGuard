@@ -1,0 +1,3 @@
+# Demo profile: run defaults (judge inherits V4 Pro from default.yaml).
+selection: smoke
+output_dir: reports

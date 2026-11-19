@@ -285,23 +285,40 @@ class PRReviewer:
         return incremental
 
     async def _run_agent_review(self) -> bool:
-        """Run the bounded ReviewPilot agent loop and publish its findings.
+        """Run the bounded AgentGuard agent loop and publish its findings.
 
         Returns True when the agent ran, signaling the caller to skip the
         single-shot review pipeline. Returns False when the agent is disabled
         (``[agent_exec].enabled = false``, the default) so the existing pipeline
-        runs unchanged.
+        runs unchanged. Large PRs fan out into one bounded sub-agent per file
+        batch (federation) when ``federation_enabled`` is set; the orchestration
+        decision is deterministic code, not the model.
         """
-        from pr_agent.agent_exec import runner as agent_runner
+        from agentguard.orchestration import federation as agent_federation
+        from agentguard.orchestration import runner as agent_runner
 
         if not agent_runner.is_enabled():
             return False
         diff_files = self.git_provider.get_diff_files() or []
         if not diff_files:
             return False
-        runner = agent_runner.ReviewAgentRunner()
-        state = await runner.run(diff_files)
-        final_answer = getattr(state, "final_answer", None) or ""
+        federation_policy = agent_federation.load_federation_policy()
+        decision = agent_federation.evaluate_federation(diff_files, federation_policy)
+        get_logger().info(
+            "federation decision: use={} files={} est_tokens={} | reasons: {}",
+            decision.use_federation,
+            decision.num_files,
+            decision.estimated_tokens,
+            "; ".join(decision.reasons),
+        )
+        if decision.use_federation:
+            final_answer, _merged = await agent_federation.run_federation_review(
+                diff_files, federation_policy
+            )
+        else:
+            runner = agent_runner.ReviewAgentRunner()
+            state = await runner.run(diff_files)
+            final_answer = getattr(state, "final_answer", None) or ""
         self.prediction = final_answer
         if final_answer and get_settings().config.publish_output:
             self.git_provider.publish_comment(final_answer)
@@ -324,7 +341,7 @@ class PRReviewer:
                 get_logger().info(f"PR has no files: {self.pr_url}, skipping review")
                 return None
 
-            # ReviewPilot agent loop: when [agent_exec].enabled is true, run the
+            # AgentGuard agent loop: when [agent_exec].enabled is true, run the
             # bounded multi-step agent instead of the single-shot pipeline. The
             # agent publishes its own findings; the rest of run() is the
             # unchanged single-shot path used when the agent is disabled.

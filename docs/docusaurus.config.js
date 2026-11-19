@@ -22,8 +22,8 @@ const codeTheme = {
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'ReviewPilot',
-  tagline: 'AI-powered code review agent',
+  title: 'AgentGuard',
+  tagline: 'Bounded AI code review and deterministic agent behavior regression testing',
   url: 'https://docs.pr-agent.ai',
   baseUrl: '/',
   // The MkDocs site published directory URLs, and pr_agent/tools/pr_help_message.py
@@ -33,7 +33,7 @@ const config = {
   onBrokenAnchors: 'throw',
   favicon: 'img/favicon.svg',
   organizationName: 'sansuiyi',
-  projectName: 'ReviewPilot',
+  projectName: 'AgentGuard',
 
   markdown: {
     format: 'detect',
@@ -50,7 +50,7 @@ const config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/sansuiyi/ReviewPilot/tree/main/docs/',
+          editUrl: 'https://github.com/sansuiyi/AgentGuard/tree/main/docs/',
         },
         blog: false,
         theme: {
@@ -108,9 +108,9 @@ const config = {
         },
       },
       navbar: {
-        title: 'ReviewPilot',
+        title: 'AgentGuard',
         logo: {
-          alt: 'ReviewPilot Logo',
+          alt: 'AgentGuard Logo',
           src: 'img/favicon.svg',
         },
         items: [
@@ -140,7 +140,7 @@ const config = {
           },
           {to: '/maintainers', label: 'Maintainers', position: 'left'},
           {
-            href: 'https://github.com/sansuiyi/ReviewPilot',
+            href: 'https://github.com/sansuiyi/AgentGuard',
             label: 'GitHub',
             position: 'right',
           },
@@ -158,12 +158,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/sansuiyi/ReviewPilot',
+                href: 'https://github.com/sansuiyi/AgentGuard',
               },
             ],
           },
         ],
-        copyright: `Copyright \u00a9 ${new Date().getFullYear()} ReviewPilot. Built with Docusaurus.`,
+        copyright: `Copyright \u00a9 ${new Date().getFullYear()} AgentGuard. Built with Docusaurus.`,
       },
       prism: {
         theme: codeTheme,

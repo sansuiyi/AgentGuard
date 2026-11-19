@@ -1,4 +1,4 @@
-"""Tests for the MCP-standardized tool registration layer (pr_agent.agent_exec.tools).
+"""Tests for the MCP-standardized tool registration layer (agentguard.analysis.tools).
 
 Verifies that:
   - the built-in tools self-describe their arguments via ``input_schema``;
@@ -9,8 +9,7 @@ Verifies that:
 
 import pytest
 
-from pr_agent.agent_exec.models import ToolResult, ToolStatus
-from pr_agent.agent_exec.tools import (
+from agentguard.analysis.tools import (
     FindReferencesTool,
     MCPToolAdapter,
     MCPToolDescriptor,
@@ -19,6 +18,7 @@ from pr_agent.agent_exec.tools import (
     ToolRegistry,
     to_mcp_descriptor,
 )
+from agentguard.core.schemas import ToolResult, ToolStatus
 from pr_agent.algo.types import EDIT_TYPE, FilePatchInfo
 
 

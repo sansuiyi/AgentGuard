@@ -1,0 +1,41 @@
+# Fault-injection scenarios for `agentguard demo`.
+# Each scenario injects a set of FI-* faults into the *candidate* and asserts
+# the deterministic decision the run must produce.
+scenarios:
+  clean:
+    description: "Base 与正常 Candidate 对比，无故障注入，预期 PASS"
+    fault_ids: []
+    expected_decision: "PASS"
+  memory-regression:
+    description: "注入记忆写入/读取故障，预期检出回归并 BLOCK"
+    fault_ids: ["FI-MEM-001", "FI-MEM-002"]
+    expected_decision: "BLOCK"
+  emotion-regression:
+    description: "注入情绪状态故障，预期 REVIEW"
+    fault_ids: ["FI-EMO-001", "FI-EMO-002"]
+    expected_decision: "REVIEW"
+  personality-drift:
+    description: "注入人设漂移故障，预期 REVIEW"
+    fault_ids: ["FI-PER-001"]
+    expected_decision: "REVIEW"
+  safety-regression:
+    description: "注入安全拦截故障，预期 BLOCK"
+    fault_ids: ["FI-SAFE-001", "FI-SAFE-002"]
+    expected_decision: "BLOCK"
+  tool-failure:
+    description: "注入工具参数/状态故障，预期 REVIEW"
+    fault_ids: ["FI-TOOL-001", "FI-TOOL-002"]
+    expected_decision: "REVIEW"
+  all-faults:
+    description: "注入全部故障，预期 BLOCK"
+    fault_ids:
+      - "FI-MEM-001"
+      - "FI-MEM-002"
+      - "FI-EMO-001"
+      - "FI-EMO-002"
+      - "FI-PER-001"
+      - "FI-SAFE-001"
+      - "FI-SAFE-002"
+      - "FI-TOOL-001"
+      - "FI-TOOL-002"
+    expected_decision: "BLOCK"

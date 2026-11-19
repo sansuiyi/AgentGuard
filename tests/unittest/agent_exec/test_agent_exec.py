@@ -1,4 +1,4 @@
-"""Unit tests for the ReviewPilot agent loop (pr_agent/agent_exec).
+"""Unit tests for the AgentGuard agent loop (pr_agent/agent_exec).
 
 These tests use a mock AI handler and mock ``FilePatchInfo`` objects, so no real
 API key or network is required. They verify the core property of the upgrade:
@@ -10,13 +10,13 @@ import json
 
 import pytest
 
-from pr_agent.agent_exec.models import ToolStatus
-from pr_agent.agent_exec.policy import AgentPolicy
-from pr_agent.agent_exec.tools import (
+from agentguard.analysis.tools import (
     FindReferencesTool,
     ReadFileContextTool,
     RunStaticAnalysisTool,
 )
+from agentguard.core.policy import AgentPolicy
+from agentguard.core.schemas import ToolStatus
 from pr_agent.algo.types import EDIT_TYPE, FilePatchInfo
 
 
@@ -64,7 +64,7 @@ def _decision_json(action, **kwargs):
 
 
 def test_finding_accepts_critical_and_mixed_case_risk_level():
-    from pr_agent.agent_exec.models import Finding, RiskLevel
+    from agentguard.core.schemas import Finding, RiskLevel
 
     # Real models emit "critical" (and arbitrary casing); they must survive
     # parsing instead of being silently dropped.
@@ -116,7 +116,7 @@ async def test_tool_missing_argument_is_unsupported_not_clean():
 
 @pytest.mark.asyncio
 async def test_agent_loop_decides_based_on_tool_result():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     responses = [
         _decision_json("tools", tool_name="find_references", tool_arguments={"symbol": "foo"}),
@@ -141,7 +141,7 @@ async def test_agent_loop_decides_based_on_tool_result():
 
 @pytest.mark.asyncio
 async def test_agent_loop_stops_on_tool_budget():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     responses = [_decision_json("tools", tool_name="read_file_context")]
     factory = MockHandlerFactory(responses)
@@ -156,7 +156,7 @@ async def test_agent_loop_stops_on_tool_budget():
 
 @pytest.mark.asyncio
 async def test_review_node_extracts_findings_on_finalize():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     finding = {
         "id": "f1",
@@ -179,7 +179,7 @@ async def test_review_node_extracts_findings_on_finalize():
 
 @pytest.mark.asyncio
 async def test_jev_forces_verify_for_high_risk_low_confidence():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     high_risk = {
         "id": "f1",
@@ -206,7 +206,7 @@ async def test_jev_forces_verify_for_high_risk_low_confidence():
 
 @pytest.mark.asyncio
 async def test_jev_forces_verify_for_critical_risk_low_confidence():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     critical_risk = {
         "id": "f1",
@@ -233,7 +233,7 @@ async def test_jev_forces_verify_for_critical_risk_low_confidence():
 
 @pytest.mark.asyncio
 async def test_loop_detection_forces_finalize():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     repeated = _decision_json("tools", tool_name="find_references", tool_arguments={"symbol": "foo"})
     factory = MockHandlerFactory([repeated, repeated, repeated])
@@ -250,7 +250,7 @@ async def test_loop_detection_forces_finalize():
 
 @pytest.mark.asyncio
 async def test_harness_refuses_unknown_tool_and_lets_model_retry():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     factory = MockHandlerFactory(
         [
@@ -273,7 +273,7 @@ async def test_harness_refuses_unknown_tool_and_lets_model_retry():
 
 @pytest.mark.asyncio
 async def test_trajectory_and_audit_recorded():
-    from pr_agent.agent_exec.runner import ReviewAgentRunner
+    from agentguard.orchestration.runner import ReviewAgentRunner
 
     responses = [
         _decision_json("tools", tool_name="read_file_context"),
